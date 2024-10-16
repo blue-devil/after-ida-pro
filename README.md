@@ -150,6 +150,70 @@ This plugin needs [keystone-engine][10] to run.
 - Download `keypatch.py`. (You only need this file)
 - Move `keypatch.py` to `plugins` diretory of IDA Pro
 
+**IDA Pro v9 UPDATE** If you have upgraded to IDA Pro v9 and want to install
+keypatch plugin you need to install
+[keypatch updated for IDA Pro v9 plugin][45].
+
+More on this. If you have macOS arm64 you might have a problem:
+
+```txt
+fail to load the dynamic library. 
+```
+
+As of today (16.10.204) if you `homebrew install keystone`; installs
+related keystone binaries (like `kstone`) but not `libkeystone.dylib`.
+You have to compile keystone from its source and put it under your library
+path.
+
+```txt
+git clone https://github.com/keystone-engine/keypatch.git
+mkdir build
+cd build
+```
+
+Before building make those changes:
+
+`make-common.sh`:
+
+```txt
+on line 28, before
+ARCH='i386;x86_64'
+
+after
+ARCH='x86_64'
+```
+
+`make-share.sh`: I only add my python path to this file. If you use your
+stock python you do not need to change someting:
+
+```txt
+before
+cmake -DBUILD_LIBS_ONLY=$BUILD_LIBS_ONLY -DLLVM_BUILD_32_BITS="$LLVM_BUILD_32_BITS" -DCMAKE_OSX_ARCHITECTURES="$ARCH" -DCMAKE_BUILD_TYPE=$BUILDTYPE -DBUILD_SHARED_LIBS=ON -DLLVM_TARGETS_TO_BUILD="all" -G "Unix Makefiles" ..
+
+after
+cmake -DBUILD_LIBS_ONLY=$BUILD_LIBS_ONLY -DLLVM_BUILD_32_BITS="$LLVM_BUILD_32_BITS" -DCMAKE_OSX_ARCHITECTURES="$ARCH" -DCMAKE_BUILD_TYPE=$BUILDTYPE -DBUILD_SHARED_LIBS=ON -DLLVM_TARGETS_TO_BUILD="all" -DPYTHON_LIBRARY="/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/lib/libpython3.12.dylib" -DPYTHON_EXECUTABLE="/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/bin/python3.12" -G "Unix Makefiles" ..
+```
+
+After related/needed changes now we can build keystone:
+
+```txt
+../make-share.sh
+```
+
+I am not going to use `make install`. Because I already installed keystone
+using homebrew. I only copied `libkeystone.0.dylib` under:
+
+```txt
+cp libkeystone.0.dylib /opt/homebrew/Cellar/keystone/0.9.2/lib/
+```
+
+Make a symbolic link
+
+```txt
+cd /opt/homebrew/lib
+ln -s ../Cellar/keystone/0.9.2/lib/libkeystone.0.dylib libkeystone.dylib
+```
+
 ## [patching][06]
 
 [patching][06] is an interactive Binary Patching Plugin for
@@ -682,6 +746,7 @@ Plugins
 - [ifred - IDA command palette & more][04]
 - [patching - Interactive Binary Patching Plugin][06]
 - [keypatch][09]
+- [keypatch IDA Pro 9 Update][45]
 - [gepetto - IDA plugin which OpenAI's gpt-3.5-turbo for reverse-engineering][07]
 - [VulChatGPT - HexRays decompiler with OpenAI(ChatGPT) to find possible vulnerabilities in binaries][08]
 - [IDA Signsrch][11]
@@ -748,6 +813,7 @@ This project is under the AGPL v3.0 License.
 [07]: https://github.com/JusticeRage/Gepetto
 [08]: https://github.com/ke0z/VulChatGPT
 [09]: https://github.com/keystone-engine/keypatch
+[45]: https://github.com/keystone-engine/keypatch/blob/e87f0f90e149aa0d16851c9d919dba214f239e7c/keypatch.py
 [11]: https://sourceforge.net/projects/idasignsrch/
 [12]: https://aluigi.altervista.org/mytoolz.htm#signsrch
 [13]: https://github.com/L4ys/IDASignsrch
