@@ -3,6 +3,10 @@
 This repo contains information about what to do after installing IDA Pro v8.3
 and above.
 
+**UPDATE**: The plugins I have curated here might had not updated/ported
+for IDA Pro v9.0. I am going to update this repo when a plugin is ready to
+get used in new ID pro v9. Stay tuned.
+
 - [ifred](#ifred)
 - [keypatch](#keypatch)
 - [patching](#patching)
