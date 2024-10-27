@@ -535,7 +535,7 @@ brackets so you can jump referenced memory addresses.
 
 ### SmartJump Installation
 
-- Go to [SmartJump]35 repo
+- Go to [SmartJump][35] repo
 - Download repo as zip.
 - In repo there is a plugins folder. Inside it there is `SmartJump.py` and a folder
 - Copy `SmartJump.py` and `SmartJump` folder in your IDA Pro's plugins folder
