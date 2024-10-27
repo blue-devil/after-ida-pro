@@ -440,6 +440,13 @@ Ubuntu ARM64
 pip3 install flare-capa
 ```
 
+**NOTE**: If you already have installed `flare-capa` before; then you need
+to upgrade it to work with IDA Prov 9.0:
+
+```txt
+python -m pip install --upgrade flare-capa
+```
+
 Download/clone [CAPA RULES][33]:
 
 ```txt
