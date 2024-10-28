@@ -170,7 +170,8 @@ You have to compile keystone from its source and put it under your library
 path.
 
 ```txt
-git clone https://github.com/keystone-engine/keypatch.git
+git clone https://github.com/keystone-engine/keystone.git
+cd keystone
 mkdir build
 cd build
 ```
